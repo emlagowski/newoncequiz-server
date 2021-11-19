@@ -1,18 +1,52 @@
 package pl.newoncequiz.newoncequiz.api
 
 import org.springframework.web.bind.annotation.*
+import pl.newoncequiz.newoncequiz.application.game.command.CreateGameCommand
+import pl.newoncequiz.newoncequiz.application.game.command.CreateGameCommandHandler
+import pl.newoncequiz.newoncequiz.domain.game.Game
+import pl.newoncequiz.newoncequiz.domain.game.Question
 
 @RequestMapping("/api/games")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
-class GameEndpoint {
+class GameEndpoint(
+    private val createGameCommandHandler: CreateGameCommandHandler
+) {
 
     @PostMapping
     fun createGame(
         @RequestBody createGameRequestDto: CreateGameRequestDto
     ): GetGameResponseDto {
-        throw NotImplementedError()
+       return createGameCommandHandler(
+            CreateGameCommand(
+                userId = createGameRequestDto.userId,
+                categoryId = createGameRequestDto.categoryId
+            )
+        ).toDto()
     }
+}
+
+private fun Game.toDto(): GetGameResponseDto {
+    return GetGameResponseDto(
+        GameDto(
+            id = id.toString(),
+            questions = questions.map {
+                it.toDto()
+            }
+        )
+    )
+}
+
+private fun Question.toDto(): QuestionDto {
+    return QuestionDto(
+        number = number,
+        article = article,
+        coverUri = coverUri,
+        randomSong = randomSong,
+        answer = answer,
+        possibleAnswers = possibleAnswers,
+        resultImageUri = resultImageUri
+    )
 }
 
 data class CreateGameRequestDto(

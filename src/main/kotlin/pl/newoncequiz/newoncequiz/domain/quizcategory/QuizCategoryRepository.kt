@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface QuizCategoryRepository : JpaRepository<QuizCategory, UUID> {
-
+    fun getById(categoryId: String): QuizCategory
 }

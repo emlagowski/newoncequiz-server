@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 data class QuizCategory(
     @Id
-    val id: UUID = UUID.randomUUID(),
+    val id: String = UUID.randomUUID().toString(),
     val type: QuizCategoryType,
     val name: String,
     val maxTriesCount: Long

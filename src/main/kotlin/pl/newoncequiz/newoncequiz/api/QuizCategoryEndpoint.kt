@@ -30,7 +30,7 @@ data class GetCategoriesResponseDto(
 
 fun QuizCategory.toDto(): CategoryDto {
     return CategoryDto(
-        id = id.toString(),
+        id = id,
         type = type,
         typeName = name,
         playedUsersCount = 420,
