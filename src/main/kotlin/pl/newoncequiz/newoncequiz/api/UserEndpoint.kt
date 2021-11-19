@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserEndpoint {
 
     @PostMapping
-    fun create(@RequestBody createUserRequestDto: CreateUserRequestDto): CreateUserRequestDto {
+    fun create(@RequestBody createUserRequestDto: CreateUserRequestDto): CreateUserResponseDto {
         throw NotImplementedError()
     }
 }

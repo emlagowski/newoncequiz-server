@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class RankingsEndpoint {
 
     @GetMapping
-    fun get(@RequestParam("categoryId") categoryId: String) {
+    fun get(@RequestParam("categoryId") categoryId: String) : GetRankingsResponseDto{
         throw NotImplementedError()
     }
 }
