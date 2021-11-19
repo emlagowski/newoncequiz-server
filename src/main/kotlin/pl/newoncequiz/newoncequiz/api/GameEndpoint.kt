@@ -7,20 +7,25 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class GameEndpoint {
 
-    @GetMapping
-    fun get(
-        @RequestParam("userId") userId: String,
-        @RequestParam("categoryId") categoryId: String
+    @PostMapping
+    fun createGame(
+        @RequestBody createGameRequestDto: CreateGameRequestDto
     ): GetGameResponseDto {
         throw NotImplementedError()
     }
 }
+
+data class CreateGameRequestDto(
+    val userId: String,
+    val categoryId: String
+)
 
 data class GetGameResponseDto(
     val game: GameDto
 )
 
 data class GameDto(
+    val id: String,
     val questions: List<QuestionDto>
 )
 
