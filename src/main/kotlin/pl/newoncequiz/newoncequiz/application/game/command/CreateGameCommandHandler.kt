@@ -5,11 +5,13 @@ import pl.newoncequiz.newoncequiz.domain.game.Game
 import pl.newoncequiz.newoncequiz.domain.game.Question
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryRepository
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryType
+import pl.newoncequiz.newoncequiz.infrastructure.clients.Newonce
 import java.util.*
 
 @Component
 class CreateGameCommandHandler(
-    private val quizCategoryRepository: QuizCategoryRepository
+    private val quizCategoryRepository: QuizCategoryRepository,
+    private val newonce: Newonce
 ) {
     operator fun invoke(createGameCommand: CreateGameCommand): Game {
         return Game(
@@ -21,6 +23,7 @@ class CreateGameCommandHandler(
     private fun generateQuestion(number: Int, categoryId: String): Question {
         val artists = getArtists(categoryId)
         val chosenArtist = artists.get(Random().nextInt(artists.size))
+        val chosenArtisNewonce = newonce.getArtists(chosenArtist.slug)
         val artistsForAnswers = artists - chosenArtist
         val chosenAnswersArtists = artistsForAnswers.shuffled().subList(0, 3)
         return Question(
@@ -30,7 +33,7 @@ class CreateGameCommandHandler(
             randomSong = "Dzień Dobry",
             answer = chosenArtist.name,
             possibleAnswers = (chosenAnswersArtists + chosenArtist).map { it.name },
-            resultImageUri = "https://ocdn.eu/pulscms-transforms/1/m5sk9kpTURBXy9jNTM2M2VlNDlhYTljNjFkZWU2YWRmZTRlMzc3ZmRmMy5wbmeSlQMAA80D3s0CLJMFzQSwzQJ2gqEwAaExAA"
+            resultImageUri = chosenArtisNewonce.image.url
         )
     }
 
@@ -41,7 +44,7 @@ class CreateGameCommandHandler(
                 Artist("Kizo", "kizo-2778214"),
                 Artist("Taco Hemingway", "taco-hemingway-4320863"),
                 Artist("PRO8L3M", "pro8l3m-3529948"),
-                Artist("Oliwka Brazil", "oliwka-brazil-8887420")
+                Artist("Żabson", "zabson-3803974")
             )
             QuizCategoryType.INTERNATIONAL_RAP -> TODO()
             QuizCategoryType.FOOTBALL -> TODO()
