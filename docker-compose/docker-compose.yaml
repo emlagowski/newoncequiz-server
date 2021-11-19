@@ -42,6 +42,6 @@ services:
     image: ghcr.io/emlagowski/newoncequiz:v0.1
     environment:
       NODE_ENV: PROD
-      VIRTUAL_HOST: api.newoncequiz.pl,www.api.newoncequiz.pl
+      VIRTUAL_HOST: newoncequiz.pl,www.newoncequiz.pl
       VIRTUAL_PORT: 80
-      LETSENCRYPT_HOST: api.newoncequiz.pl,www.api.newoncequiz.pl
+      LETSENCRYPT_HOST: newoncequiz.pl,www.newoncequiz.pl
