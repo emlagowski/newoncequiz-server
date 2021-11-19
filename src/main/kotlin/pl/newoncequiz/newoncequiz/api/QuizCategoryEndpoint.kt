@@ -1,21 +1,45 @@
 package pl.newoncequiz.newoncequiz.api
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import pl.newoncequiz.newoncequiz.application.quizcategory.query.GetQuizCategoriesHandler
+import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategory
+import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryType
 
 @RequestMapping("/api/quiz-categories")
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
-class QuizCategoryEndpoint {
+class QuizCategoryEndpoint(
+    private val getQuizCategoriesHandler: GetQuizCategoriesHandler
+) {
 
     @GetMapping
     fun get(@RequestParam("userId") userId: String): GetCategoriesResponseDto {
-        throw NotImplementedError()
+        return getQuizCategoriesHandler().toDto()
     }
 }
 
+private fun List<QuizCategory>.toDto(): GetCategoriesResponseDto {
+    return GetCategoriesResponseDto(
+        categories = this.map { it.toDto() }
+    )
+}
+
 data class GetCategoriesResponseDto(
+    val categories: List<CategoryDto>
+)
+
+fun QuizCategory.toDto(): CategoryDto {
+    return CategoryDto(
+        id = id.toString(),
+        type = type,
+        typeName = name,
+        playedUsersCount = 420,
+        leftTriesCount = maxTriesCount,
+        maxTriesCount = maxTriesCount
+    )
+}
+
+data class CategoryDto(
     val id: String,
     val type: QuizCategoryType,
     val typeName: String,
@@ -24,6 +48,3 @@ data class GetCategoriesResponseDto(
     val maxTriesCount: Long
 )
 
-enum class QuizCategoryType {
-    POLISH_RAP, INTERNATIONAL_RAP, FOOTBALL, LIFESTYLE
-}

@@ -1,14 +1,12 @@
 package pl.newoncequiz.newoncequiz.api
 
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import pl.newoncequiz.newoncequiz.application.user.command.CreateUserCommand
 import pl.newoncequiz.newoncequiz.application.user.command.CreateUserHandler
 import pl.newoncequiz.newoncequiz.domain.user.User
 
 @RequestMapping("/api/users")
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 class UserEndpoint(
     private val createUserHandler: CreateUserHandler
