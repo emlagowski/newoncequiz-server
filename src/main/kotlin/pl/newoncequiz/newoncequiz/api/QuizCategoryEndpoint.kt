@@ -20,7 +20,8 @@ data class GetCategoriesResponseDto(
     val type: QuizCategoryType,
     val typeName: String,
     val playedUsersCount: Long,
-    val leftTriesCount: Long
+    val leftTriesCount: Long,
+    val maxTriesCount: Long
 )
 
 enum class QuizCategoryType {
