@@ -12,11 +12,19 @@ interface Newonce {
     @GetMapping("/artists/{slug}")
     fun getArtists(@PathVariable("slug") slug: String): NewonceArtist
 
-
-
+    @GetMapping("/artists/{slug}/releases")
+    fun getReleases(@PathVariable("slug") slug: String): NewonceReleases
 }
 
 data class NewonceArtist(
+    val image: NewonceImage
+)
+
+data class NewonceReleases(
+    val popular: List<NewonceRelease>
+)
+
+data class NewonceRelease(
     val image: NewonceImage
 )
 

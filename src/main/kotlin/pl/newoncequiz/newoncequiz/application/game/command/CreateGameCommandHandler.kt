@@ -22,14 +22,17 @@ class CreateGameCommandHandler(
 
     private fun generateQuestion(number: Int, categoryId: String): Question {
         val artists = getArtists(categoryId)
-        val chosenArtist = artists.get(Random().nextInt(artists.size))
+        val chosenArtist = artists[Random().nextInt(artists.size)]
         val chosenArtisNewonce = newonce.getArtists(chosenArtist.slug)
+        val chosenArtistReleasesNewonce = newonce.getReleases(chosenArtist.slug)
+        val chosenAlbum =
+            chosenArtistReleasesNewonce.popular[Random().nextInt(chosenArtistReleasesNewonce.popular.size)]
         val artistsForAnswers = artists - chosenArtist
         val chosenAnswersArtists = artistsForAnswers.shuffled().subList(0, 3)
         return Question(
             number = number,
             article = fetchArticle(),
-            coverUri = "https://ocdn.eu/pulscms-transforms/1/m5sk9kpTURBXy9jNTM2M2VlNDlhYTljNjFkZWU2YWRmZTRlMzc3ZmRmMy5wbmeSlQMAA80D3s0CLJMFzQSwzQJ2gqEwAaExAA",
+            coverUri = chosenAlbum.image.url,
             randomSong = "Dzień Dobry",
             answer = chosenArtist.name,
             possibleAnswers = (chosenAnswersArtists + chosenArtist).map { it.name },
