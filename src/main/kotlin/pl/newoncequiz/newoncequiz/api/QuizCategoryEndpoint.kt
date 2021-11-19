@@ -18,6 +18,7 @@ class QuizCategoryEndpoint {
 data class GetCategoriesResponseDto(
     val id: String,
     val type: QuizCategoryType,
+    val typeName: String,
     val playedUsersCount: Long,
     val leftTriesCount: Long
 )
