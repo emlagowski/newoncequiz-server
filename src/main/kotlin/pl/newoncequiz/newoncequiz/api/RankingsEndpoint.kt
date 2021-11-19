@@ -28,6 +28,7 @@ data class RankingDto(
 
 data class RankedUserDto(
     val place: Int,
+    val points: Long,
     val name: String,
     val slug: String,
     val id: String
