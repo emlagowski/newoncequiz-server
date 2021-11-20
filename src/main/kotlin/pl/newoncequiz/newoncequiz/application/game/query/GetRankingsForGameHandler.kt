@@ -15,8 +15,11 @@ class GetRankingsForGameHandler(
 ) {
     operator fun invoke(gameId: String): Ranking {
         val gameResultOfUSer = gameResultRepository.getByGameId(gameId)
-        val top3 = gameResultRepository.findTop3ByCategoryId(gameResultOfUSer.categoryId)
-        val behindUser = gameResultRepository.getTopByScoreLessThanEqualOrderByScoreDesc(gameResultOfUSer.score)
+        val top3 = gameResultRepository.findTop3ByCategoryIdOrderByScoreDesc(gameResultOfUSer.categoryId)
+        val behindUser = gameResultRepository.getTopByScoreLessThanAndCategoryIdOrderByScoreDesc(
+            gameResultOfUSer.score,
+            gameResultOfUSer.categoryId
+        )
         val thisUser = userRepository.getById(gameResultOfUSer.userId)
         val top3Ranking = top3Ranking(top3, thisUser)
         val currentResult = currentResult(top3Ranking, thisUser, gameResultOfUSer)
@@ -42,7 +45,7 @@ class GetRankingsForGameHandler(
         top3Ranking: List<RankingUser>,
         thisUser: User,
         gameResultOfUSer: GameResult
-    ) = if (!top3Ranking.any { it.name == thisUser.name }) {
+    ) = if (!top3Ranking.any { it.slug == thisUser.slug }) {
         emptyList()
     } else {
         listOf(
@@ -57,10 +60,10 @@ class GetRankingsForGameHandler(
     }
 
     private fun oneBehindResult(
-        behindUser: GameResult,
+        behindUser: GameResult?,
         gameResultOfUSer: GameResult,
         thisUser: User
-    ) = if (behindUser.userId == gameResultOfUSer.userId) {
+    ) = if (behindUser == null || behindUser.userId == gameResultOfUSer.userId) {
         emptyList()
     } else {
         listOf(
