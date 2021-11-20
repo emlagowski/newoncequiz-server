@@ -7,6 +7,7 @@ data class Ranking(
 )
 
 data class RankingUser(
+    val id: String,
     val name: String,
     val slug: String,
     val place: Int? = null,

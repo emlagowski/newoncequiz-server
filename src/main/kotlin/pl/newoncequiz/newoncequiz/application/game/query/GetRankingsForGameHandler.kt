@@ -29,7 +29,7 @@ class GetRankingsForGameHandler(
         println("GetRankingsForGameHandler.invoke top3Ranking=" + thisUser)
         val currentResult = currentResult(top3Ranking, thisUser, gameResultOfUSer)
         println("GetRankingsForGameHandler.invoke currentResult=" + currentResult)
-        val oneBehind = oneBehindResult(behindUser, gameResultOfUSer, thisUser)
+        val oneBehind = oneBehindResult(behindUser, gameResultOfUSer, thisUser, top3Ranking)
         println("GetRankingsForGameHandler.invoke oneBehind=" + oneBehind)
         var ranking = Ranking(
             top3Ranking + currentResult + oneBehind
@@ -42,6 +42,7 @@ class GetRankingsForGameHandler(
         top3.mapIndexed { index, score ->
             val user = userRepository.getById(score.userId)
             RankingUser(
+                id = user.id,
                 name = user.name,
                 slug = user.slug,
                 place = index + 1,
@@ -59,6 +60,7 @@ class GetRankingsForGameHandler(
     } else {
         listOf(
             RankingUser(
+                id = thisUser.id,
                 name = thisUser.name,
                 slug = thisUser.slug,
                 place = gameResultRepository.countByScoreGreaterThan(gameResultOfUSer.score) + 1, // todo chyba to +1
@@ -71,12 +73,16 @@ class GetRankingsForGameHandler(
     private fun oneBehindResult(
         behindUser: GameResult?,
         gameResultOfUSer: GameResult,
-        thisUser: User
-    ) = if (behindUser == null || behindUser.userId == gameResultOfUSer.userId) {
+        thisUser: User,
+        top3Ranking: List<RankingUser>
+    ) = if (behindUser == null
+        || behindUser.userId == gameResultOfUSer.userId
+        || !top3Ranking.any { it.id == behindUser.userId }) {
         emptyList()
     } else {
         listOf(
             RankingUser(
+                id = userRepository.getById(behindUser.userId).id,
                 name = userRepository.getById(behindUser.userId).name,
                 slug = userRepository.getById(behindUser.userId).slug,
                 place = gameResultRepository.countByScoreGreaterThan(behindUser.score) + 1,
