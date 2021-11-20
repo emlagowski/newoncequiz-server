@@ -9,6 +9,6 @@ interface GameResultRepository : JpaRepository<GameResult, String> {
     fun findByUserIdAndCategoryId(userId: String, categoryId: String): GameResult?
     fun countDistinctByCategoryId(categoryId: String): Long
     fun findTop3ByCategoryIdOrderByScoreDesc(categoryId: String): List<GameResult>
-    fun getTopByScoreLessThanEqualAndCategoryIdOrderByScoreDesc(score: BigInteger, categoryId: String): GameResult?
+    fun getTopByScoreLessThanAndCategoryIdOrderByScoreDesc(score: BigInteger, categoryId: String): GameResult?
     fun countByScoreGreaterThan(score: BigInteger): Int
 }
