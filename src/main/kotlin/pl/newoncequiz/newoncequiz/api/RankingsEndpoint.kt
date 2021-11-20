@@ -1,35 +1,52 @@
 package pl.newoncequiz.newoncequiz.api
 
 import org.springframework.web.bind.annotation.*
+import pl.newoncequiz.newoncequiz.application.game.query.GetRankingsForGameHandler
+import pl.newoncequiz.newoncequiz.domain.ranking.Ranking
+import pl.newoncequiz.newoncequiz.domain.ranking.RankingUser
+import java.math.BigInteger
+import javax.websocket.server.PathParam
 
 @RequestMapping("/api/rankings")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
-class RankingsEndpoint {
+class RankingsEndpoint(
+    private val getRankingsForGameHandler: GetRankingsForGameHandler
+) {
 
     @GetMapping
-    fun get(@RequestParam("categoryId") categoryId: String) : GetRankingsResponseDto{
+    fun get(@RequestParam("categoryId") categoryId: String): GetRankingsResponseDto {
         throw NotImplementedError()
+    }
+
+    @GetMapping("/game/{gameId}")
+    fun getForGame(@PathVariable("gameId") gameId: String): GetRankingsResponseDto {
+        return getRankingsForGameHandler(gameId).toDto()
     }
 }
 
-data class GetRankingsResponseDto(
-    val rankings: List<RankingDto>
-)
-
-enum class RankingType {
-    DAILY, WEEKLY, MONTHLY
+private fun Ranking.toDto(): GetRankingsResponseDto {
+    return GetRankingsResponseDto(
+        rankings = ranking.map { it.toDto() }.sortedBy { it.place }.toSet()
+    )
 }
 
-data class RankingDto(
-    val type: RankingType,
-    val users: List<RankedUserDto>
+private fun RankingUser.toDto(): RankedUserDto {
+    return RankedUserDto(
+        place = place,
+        score = score,
+        name = name,
+        slug = slug,
+    )
+}
+
+data class GetRankingsResponseDto(
+    val rankings: Set<RankedUserDto>
 )
 
 data class RankedUserDto(
     val place: Int,
-    val points: Long,
+    val score: BigInteger,
     val name: String,
     val slug: String,
-    val id: String
 )

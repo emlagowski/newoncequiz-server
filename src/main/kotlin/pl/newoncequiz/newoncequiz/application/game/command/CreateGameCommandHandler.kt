@@ -25,7 +25,8 @@ class CreateGameCommandHandler(
             GameResult(
                 id = game.id.toString(),
                 userId = createGameCommand.userId,
-                categoryId = createGameCommand.categoryId
+                categoryId = createGameCommand.categoryId,
+                gameId = game.id.toString()
             )
         )
         return game
