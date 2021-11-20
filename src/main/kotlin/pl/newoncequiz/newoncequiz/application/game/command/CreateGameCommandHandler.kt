@@ -24,7 +24,8 @@ class CreateGameCommandHandler(
         gameResultRepository.save(
             GameResult(
                 id = game.id.toString(),
-                userId = createGameCommand.userId
+                userId = createGameCommand.userId,
+                categoryId = createGameCommand.categoryId
             )
         )
         return game
