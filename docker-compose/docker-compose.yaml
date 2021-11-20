@@ -31,7 +31,7 @@ services:
 
   api:
     container_name: api
-    image: ghcr.io/emlagowski/newoncequiz-server:0.13
+    image: ghcr.io/emlagowski/newoncequiz-server:0.14
     environment:
       VIRTUAL_HOST: api.newoncequiz.pl
       VIRTUAL_PORT: 8080
@@ -39,7 +39,7 @@ services:
 
   web:
     container_name: web
-    image: ghcr.io/emlagowski/newoncequiz:v0.8
+    image: ghcr.io/emlagowski/newoncequiz:v0.10
     environment:
       NODE_ENV: PROD
       VIRTUAL_HOST: newoncequiz.pl,www.newoncequiz.pl
