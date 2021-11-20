@@ -37,6 +37,7 @@ private fun RankingUser.toDto(): RankedUserDto {
         score = score,
         name = name,
         slug = slug,
+        thisUser = thisUser
     )
 }
 
@@ -45,6 +46,7 @@ data class GetRankingsResponseDto(
 )
 
 data class RankedUserDto(
+    val thisUser: Boolean,
     val place: Int,
     val score: BigInteger,
     val name: String,

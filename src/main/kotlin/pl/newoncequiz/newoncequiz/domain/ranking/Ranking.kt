@@ -10,5 +10,6 @@ data class RankingUser(
     val name: String,
     val slug: String,
     val place: Int,
-    val score: BigInteger
+    val score: BigInteger,
+    val thisUser: Boolean
 )

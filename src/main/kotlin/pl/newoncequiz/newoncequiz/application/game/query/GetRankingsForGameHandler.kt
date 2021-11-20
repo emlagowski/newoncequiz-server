@@ -21,7 +21,8 @@ class GetRankingsForGameHandler(
                 name = user.name,
                 slug = user.slug,
                 place = index + 1,
-                score = score.score
+                score = score.score,
+                thisUser = false
             )
         } +
                 listOf(
@@ -29,7 +30,8 @@ class GetRankingsForGameHandler(
                         name = userRepository.getById(gameResultOfUSer.userId).name,
                         slug = userRepository.getById(gameResultOfUSer.userId).slug,
                         place = gameResultRepository.countByScoreGreaterThan(gameResultOfUSer.score) + 1,
-                        score = gameResultOfUSer.score
+                        score = gameResultOfUSer.score,
+                        thisUser = true
                     )
                 ) +
                 listOf(
@@ -37,7 +39,8 @@ class GetRankingsForGameHandler(
                         name = userRepository.getById(behindUser.userId).name,
                         slug = userRepository.getById(behindUser.userId).slug,
                         place = gameResultRepository.countByScoreGreaterThan(behindUser.score) + 1,
-                        score = behindUser.score
+                        score = behindUser.score,
+                        thisUser = false
                     )
                 ))
     }
