@@ -2,6 +2,8 @@ package pl.newoncequiz.newoncequiz.application.game.command
 
 import org.springframework.stereotype.Component
 import pl.newoncequiz.newoncequiz.domain.game.Game
+import pl.newoncequiz.newoncequiz.domain.game.GameResult
+import pl.newoncequiz.newoncequiz.domain.game.GameResultRepository
 import pl.newoncequiz.newoncequiz.domain.game.Question
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryRepository
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryType
@@ -11,13 +13,21 @@ import java.util.*
 @Component
 class CreateGameCommandHandler(
     private val quizCategoryRepository: QuizCategoryRepository,
+    private val gameResultRepository: GameResultRepository,
     private val newonce: Newonce
 ) {
     operator fun invoke(createGameCommand: CreateGameCommand): Game {
-        return Game(
+        val game = Game(
             id = UUID.randomUUID(),
             questions = (1..2).map { generateQuestion(it, categoryId = createGameCommand.categoryId) }
         )
+        gameResultRepository.save(
+            GameResult(
+                id = game.id.toString(),
+                userId = createGameCommand.userId
+            )
+        )
+        return game
     }
 
     private fun generateQuestion(number: Int, categoryId: String): Question {
