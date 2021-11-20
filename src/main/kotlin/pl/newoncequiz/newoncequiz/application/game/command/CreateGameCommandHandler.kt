@@ -16,7 +16,7 @@ class CreateGameCommandHandler(
     operator fun invoke(createGameCommand: CreateGameCommand): Game {
         return Game(
             id = UUID.randomUUID(),
-            questions = (1..10).map { generateQuestion(it, categoryId = createGameCommand.categoryId) }
+            questions = (1..2).map { generateQuestion(it, categoryId = createGameCommand.categoryId) }
         )
     }
 
@@ -29,10 +29,12 @@ class CreateGameCommandHandler(
             chosenArtistReleasesNewonce.popular.random()
         val chosenTrack = newonce.getReleaseDetails(chosenAlbum.slug).tracklist.random()
         val artistsForAnswers = artists - chosenArtist
+        val chosenArticle =
+            newonce.getArticles(chosenArtist.name).items.filter { it.title.contains(chosenArtist.name) }.random()
         val chosenAnswersArtists = artistsForAnswers.shuffled().subList(0, 3)
         return Question(
             number = number,
-            article = fetchArticle(),
+            article = chosenArticle.title.replace(chosenArtist.name, "<<CENSORED XD>>"),
             coverUri = chosenAlbum.image.url,
             randomSong = chosenTrack.title,
             answer = chosenArtist.name,
@@ -55,10 +57,6 @@ class CreateGameCommandHandler(
             QuizCategoryType.LIFESTYLE -> TODO()
         }
         return artists
-    }
-
-    private fun fetchArticle(): String {
-        return "Dzień dobry, młody G z Gdyni"
     }
 }
 
