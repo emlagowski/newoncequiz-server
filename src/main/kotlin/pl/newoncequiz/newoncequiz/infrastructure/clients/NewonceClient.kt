@@ -20,7 +20,10 @@ interface NewonceClient {
     fun getReleaseDetails(@PathVariable("slug") slug: String): NewonceDetailedRelease
 
     @GetMapping("/related/articles")
-    fun getArticles(@RequestParam("search_query") searchQuery: String): NewonceArticles
+    fun getArticles(
+        @RequestParam("search_query") searchQuery: String,
+        @RequestParam("per_page") perPage: Int = 20
+    ): NewonceArticles
 }
 
 data class NewonceArtist(
