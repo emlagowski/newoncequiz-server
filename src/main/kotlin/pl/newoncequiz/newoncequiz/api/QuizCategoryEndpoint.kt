@@ -34,7 +34,7 @@ fun QuizCategoryWithResult.toDto(): CategoryDto {
         type = quizCategory.type,
         typeName = quizCategory.name,
         playedUsersCount = playedCount,
-        leftTriesCount = quizCategory.maxTriesCount - result.size,
+        leftTriesCount = quizCategory.maxTriesCount - playedUserCount,
         maxTriesCount = quizCategory.maxTriesCount
     )
 }

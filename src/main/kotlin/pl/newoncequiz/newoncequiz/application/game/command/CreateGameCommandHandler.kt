@@ -1,21 +1,22 @@
 package pl.newoncequiz.newoncequiz.application.game.command
 
 import org.springframework.stereotype.Component
-import pl.newoncequiz.newoncequiz.domain.game.Game
-import pl.newoncequiz.newoncequiz.domain.game.GameResult
-import pl.newoncequiz.newoncequiz.domain.game.GameResultRepository
-import pl.newoncequiz.newoncequiz.domain.game.Question
+import pl.newoncequiz.newoncequiz.domain.game.*
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryRepository
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryType
 import pl.newoncequiz.newoncequiz.infrastructure.clients.Newonce
 import java.util.*
+import javax.transaction.Transactional
 
 @Component
 class CreateGameCommandHandler(
     private val quizCategoryRepository: QuizCategoryRepository,
     private val gameResultRepository: GameResultRepository,
+    private val gamePlayedRepository: GamePlayedRepository,
     private val newonce: Newonce
 ) {
+
+    @Transactional
     operator fun invoke(createGameCommand: CreateGameCommand): Game {
         val game = Game(
             id = UUID.randomUUID(),
@@ -35,6 +36,12 @@ class CreateGameCommandHandler(
             )
         }
         gameResultRepository.save(finalGameResult)
+        gamePlayedRepository.save(
+            GamePlayed(
+                userId = createGameCommand.userId,
+                categoryId = createGameCommand.categoryId
+            )
+        )
         return game
     }
 
