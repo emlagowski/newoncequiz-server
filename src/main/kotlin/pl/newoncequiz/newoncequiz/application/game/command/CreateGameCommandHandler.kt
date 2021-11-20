@@ -64,7 +64,7 @@ class CreateGameCommandHandler(
             coverUri = chosenAlbum.image.url,
             randomSong = chosenTrack.title,
             answer = chosenArtist.name,
-            possibleAnswers = (chosenAnswersArtists + chosenArtist).map { it.name },
+            possibleAnswers = (chosenAnswersArtists + chosenArtist).map { it.name }.shuffled(),
             resultImageUri = chosenArtisNewonce.image.url
         )
     }
