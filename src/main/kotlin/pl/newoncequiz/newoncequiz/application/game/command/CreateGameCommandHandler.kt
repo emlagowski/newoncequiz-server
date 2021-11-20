@@ -20,7 +20,7 @@ class CreateGameCommandHandler(
     operator fun invoke(createGameCommand: CreateGameCommand): Game {
         val game = Game(
             id = UUID.randomUUID(),
-            questions = (1..2).map { generateQuestion(it, categoryId = createGameCommand.categoryId) }
+            questions = (1..5).map { generateQuestion(it, categoryId = createGameCommand.categoryId) }
         )
         val optionalGameResult =
             gameResultRepository.findByUserIdAndCategoryId(createGameCommand.userId, createGameCommand.categoryId)
@@ -70,16 +70,19 @@ class CreateGameCommandHandler(
 
     private fun getArtists(categoryId: String): List<Artist> {
         val category = quizCategoryRepository.getById(categoryId)
+        val polishRap = listOf(
+            Artist("Kizo", "kizo-2778214"),
+            Artist("Taco Hemingway", "taco-hemingway-4320863"),
+            Artist("PRO8L3M", "pro8l3m-3529948"),
+            Artist("Żabson", "zabson-3803974"),
+            Artist("Kaz Bałagane", "kaz-balagane-6874375"),
+            Artist("Jetlagz", "jetlagz-6157286")
+        )
         val artists = when (category.type) {
-            QuizCategoryType.POLISH_RAP -> listOf(
-                Artist("Kizo", "kizo-2778214"),
-                Artist("Taco Hemingway", "taco-hemingway-4320863"),
-                Artist("PRO8L3M", "pro8l3m-3529948"),
-                Artist("Żabson", "zabson-3803974")
-            )
-            QuizCategoryType.INTERNATIONAL_RAP -> TODO()
-            QuizCategoryType.FOOTBALL -> TODO()
-            QuizCategoryType.LIFESTYLE -> TODO()
+            QuizCategoryType.POLISH_RAP -> polishRap
+            QuizCategoryType.INTERNATIONAL_RAP -> polishRap
+            QuizCategoryType.FOOTBALL -> polishRap
+            QuizCategoryType.LIFESTYLE -> polishRap
         }
         return artists
     }

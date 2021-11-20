@@ -33,7 +33,7 @@ private fun Ranking.toDto(): GetRankingsResponseDto {
 
 private fun RankingUser.toDto(): RankedUserDto {
     return RankedUserDto(
-        place = place,
+        place = place ?: 2137,
         score = score,
         name = name,
         slug = slug,

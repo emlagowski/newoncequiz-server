@@ -9,7 +9,7 @@ data class Ranking(
 data class RankingUser(
     val name: String,
     val slug: String,
-    val place: Int,
+    val place: Int? = null,
     val score: BigInteger,
     val thisUser: Boolean
 )

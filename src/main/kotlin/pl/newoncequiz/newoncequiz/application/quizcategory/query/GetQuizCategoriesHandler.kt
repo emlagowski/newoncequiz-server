@@ -11,7 +11,6 @@ import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryRepository
 @Component
 class GetQuizCategoriesHandler(
     private val quizCategoryRepository: QuizCategoryRepository,
-    private val gameResultRepository: GameResultRepository,
     private val gamePlayedRepository: GamePlayedRepository
 ) {
 
