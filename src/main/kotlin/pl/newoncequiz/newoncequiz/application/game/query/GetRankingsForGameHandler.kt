@@ -80,14 +80,15 @@ class GetRankingsForGameHandler(
         || top3Ranking.any { it.id == behindUser.userId }) {
         emptyList()
     } else {
+        val behindUserData = userRepository.getById(behindUser.userId)
         listOf(
             RankingUser(
-                id = userRepository.getById(behindUser.userId).id,
-                name = userRepository.getById(behindUser.userId).name,
-                slug = userRepository.getById(behindUser.userId).slug,
+                id = behindUserData.id,
+                name = behindUserData.name,
+                slug = behindUserData.slug,
                 place = gameResultRepository.countByScoreGreaterThan(behindUser.score) + 1,
                 score = behindUser.score,
-                thisUser = userRepository.getById(behindUser.userId).slug == thisUser.slug
+                thisUser = behindUserData.slug == thisUser.slug
             )
         ).filter { it.name != thisUser.name }
     }
