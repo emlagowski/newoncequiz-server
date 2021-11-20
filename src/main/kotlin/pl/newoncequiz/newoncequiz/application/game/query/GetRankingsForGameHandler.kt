@@ -18,7 +18,7 @@ class GetRankingsForGameHandler(
         val top3 = gameResultRepository.findTop3ByCategoryId(gameResultOfUSer.categoryId)
         val behindUser = gameResultRepository.getTopByScoreLessThanEqualOrderByScoreDesc(gameResultOfUSer.score)
         val thisUser = userRepository.getById(gameResultOfUSer.userId)
-        val top3Ranking = top3Ranking(top3)
+        val top3Ranking = top3Ranking(top3, thisUser)
         val currentResult = currentResult(top3Ranking, thisUser, gameResultOfUSer)
         val oneBehind = oneBehindResult(behindUser, gameResultOfUSer, thisUser)
         return Ranking(
@@ -26,7 +26,7 @@ class GetRankingsForGameHandler(
         )
     }
 
-    private fun top3Ranking(top3: List<GameResult>) =
+    private fun top3Ranking(top3: List<GameResult>, thisUser: User) =
         top3.mapIndexed { index, score ->
             val user = userRepository.getById(score.userId)
             RankingUser(
@@ -34,7 +34,7 @@ class GetRankingsForGameHandler(
                 slug = user.slug,
                 place = index + 1,
                 score = score.score,
-                thisUser = false
+                thisUser = user.slug == thisUser.slug
             )
         }
 
@@ -69,7 +69,7 @@ class GetRankingsForGameHandler(
                 slug = userRepository.getById(behindUser.userId).slug,
                 place = gameResultRepository.countByScoreGreaterThan(behindUser.score) + 1,
                 score = behindUser.score,
-                thisUser = false
+                thisUser = userRepository.getById(behindUser.userId).slug == thisUser.slug
             )
         ).filter { it.name != thisUser.name }
     }
