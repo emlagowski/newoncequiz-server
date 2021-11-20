@@ -15,4 +15,8 @@ data class Question(
     val answer: String,
     val possibleAnswers: List<String>,
     val resultImageUri: String
-)
+) {
+    override fun toString(): String {
+        return "Question(number=$number, article='$article', coverUri='$coverUri', randomSong='$randomSong', answer='$answer', possibleAnswers=$possibleAnswers, resultImageUri='$resultImageUri')"
+    }
+}

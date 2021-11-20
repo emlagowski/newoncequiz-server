@@ -14,6 +14,7 @@ class QuizCategoryEndpoint(
 
     @GetMapping
     fun get(@RequestParam("userId") userId: String): GetCategoriesResponseDto {
+        println("/api/quiz-categories userId=" + userId)
         return getQuizCategoriesHandler(userId).toDto()
     }
 }

@@ -14,6 +14,7 @@ class UserEndpoint(
 
     @PostMapping
     fun create(@RequestBody createUserRequestDto: CreateUserRequestDto): CreateUserResponseDto {
+        println("/api/users createUserRequestDto=" + createUserRequestDto)
         val user = createUserHandler(createUserRequestDto.toDto())
         return user.toDto()
     }

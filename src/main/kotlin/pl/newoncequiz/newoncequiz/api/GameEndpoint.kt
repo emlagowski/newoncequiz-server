@@ -21,6 +21,7 @@ class GameEndpoint(
     fun createGame(
         @RequestBody createGameRequestDto: CreateGameRequestDto
     ): GetGameResponseDto {
+        println("/api/games createGameRequestDto=" + createGameRequestDto)
         return createGameCommandHandler(
             CreateGameCommand(
                 userId = createGameRequestDto.userId,
@@ -31,6 +32,7 @@ class GameEndpoint(
 
     @PostMapping("/results")
     fun saveResult(@RequestBody saveResultRequestDto: SaveResultRequestDto) {
+        println("/api/games/results saveResultRequestDto=" + saveResultRequestDto)
         saveGameResultCommandHandler(saveResultRequestDto.toCommand())
     }
 }

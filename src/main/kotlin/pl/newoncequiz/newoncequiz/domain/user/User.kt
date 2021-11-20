@@ -10,4 +10,8 @@ class User(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
     val slug: String,
-)
+) {
+    override fun toString(): String {
+        return "User(id='$id', name='$name', slug='$slug')"
+    }
+}

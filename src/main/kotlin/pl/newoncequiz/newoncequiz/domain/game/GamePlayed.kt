@@ -10,4 +10,8 @@ data class GamePlayed(
     val id: String = UUID.randomUUID().toString(),
     val userId: String,
     val categoryId: String
-)
+) {
+    override fun toString(): String {
+        return "GamePlayed(id='$id', userId='$userId', categoryId='$categoryId')"
+    }
+}

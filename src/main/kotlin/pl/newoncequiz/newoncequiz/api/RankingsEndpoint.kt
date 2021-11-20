@@ -21,6 +21,7 @@ class RankingsEndpoint(
 
     @GetMapping("/game/{gameId}")
     fun getForGame(@PathVariable("gameId") gameId: String): GetRankingsResponseDto {
+        println("/api/rankings/game/{gameId} gameId=" + gameId)
         return getRankingsForGameHandler(gameId).toDto()
     }
 }

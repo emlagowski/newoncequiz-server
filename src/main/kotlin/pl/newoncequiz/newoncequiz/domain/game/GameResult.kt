@@ -15,4 +15,8 @@ data class GameResult(
     val categoryId: String,
     var gameId: String,
     val createdAt: LocalDateTime = LocalDateTime.now()
-)
+) {
+    override fun toString(): String {
+        return "GameResult(id='$id', userId='$userId', score=$score, categoryId='$categoryId', gameId='$gameId', createdAt=$createdAt)"
+    }
+}

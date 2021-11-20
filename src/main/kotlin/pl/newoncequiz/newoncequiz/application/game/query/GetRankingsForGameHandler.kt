@@ -15,18 +15,27 @@ class GetRankingsForGameHandler(
 ) {
     operator fun invoke(gameId: String): Ranking {
         val gameResultOfUSer = gameResultRepository.getByGameId(gameId)
+        println("GetRankingsForGameHandler.invoke count=" + userRepository.count())
         val top3 = gameResultRepository.findTop3ByCategoryIdOrderByScoreDesc(gameResultOfUSer.categoryId)
+        println("GetRankingsForGameHandler.invoke top3=" + top3)
         val behindUser = gameResultRepository.getTopByScoreLessThanAndCategoryIdOrderByScoreDesc(
             gameResultOfUSer.score,
             gameResultOfUSer.categoryId
         )
-        val thisUser = userRepository.getById(gameResultOfUSer.userId)
+        println("GetRankingsForGameHandler.invoke behindUser=" + behindUser)
+        val thisUser = userRepository.getById(gameResultOfUSer.userId) //todo tutaj dodac kategorie
+        println("GetRankingsForGameHandler.invoke thisUser=" + thisUser)
         val top3Ranking = top3Ranking(top3, thisUser)
+        println("GetRankingsForGameHandler.invoke top3Ranking=" + thisUser)
         val currentResult = currentResult(top3Ranking, thisUser, gameResultOfUSer)
+        println("GetRankingsForGameHandler.invoke currentResult=" + currentResult)
         val oneBehind = oneBehindResult(behindUser, gameResultOfUSer, thisUser)
-        return Ranking(
+        println("GetRankingsForGameHandler.invoke oneBehind=" + oneBehind)
+        var ranking = Ranking(
             top3Ranking + currentResult + oneBehind
         )
+        println("GetRankingsForGameHandler.invoke ranking=" + ranking)
+        return ranking
     }
 
     private fun top3Ranking(top3: List<GameResult>, thisUser: User) =
@@ -45,14 +54,14 @@ class GetRankingsForGameHandler(
         top3Ranking: List<RankingUser>,
         thisUser: User,
         gameResultOfUSer: GameResult
-    ) = if (!top3Ranking.any { it.slug == thisUser.slug }) {
+    ) = if (!top3Ranking.any { it.slug == thisUser.slug } || thisUser.id == gameResultOfUSer.userId) {
         emptyList()
     } else {
         listOf(
             RankingUser(
                 name = thisUser.name,
                 slug = thisUser.slug,
-                place = gameResultRepository.countByScoreGreaterThan(gameResultOfUSer.score) + 1,
+                place = gameResultRepository.countByScoreGreaterThan(gameResultOfUSer.score) + 1, // todo chyba to +1
                 score = gameResultOfUSer.score,
                 thisUser = true
             )

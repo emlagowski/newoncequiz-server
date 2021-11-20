@@ -12,4 +12,8 @@ data class RankingUser(
     val place: Int? = null,
     val score: BigInteger,
     val thisUser: Boolean
-)
+) {
+    override fun toString(): String {
+        return "RankingUser(name='$name', slug='$slug', place=$place, score=$score, thisUser=$thisUser)"
+    }
+}
