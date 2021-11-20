@@ -21,14 +21,20 @@ class CreateGameCommandHandler(
             id = UUID.randomUUID(),
             questions = (1..2).map { generateQuestion(it, categoryId = createGameCommand.categoryId) }
         )
-        gameResultRepository.save(
+        val optionalGameResult =
+            gameResultRepository.findByUserIdAndCategoryId(createGameCommand.userId, createGameCommand.categoryId)
+        val finalGameResult = if (optionalGameResult != null) {
+            optionalGameResult.gameId = game.id.toString()
+            optionalGameResult
+        } else {
             GameResult(
                 id = game.id.toString(),
                 userId = createGameCommand.userId,
                 categoryId = createGameCommand.categoryId,
                 gameId = game.id.toString()
             )
-        )
+        }
+        gameResultRepository.save(finalGameResult)
         return game
     }
 

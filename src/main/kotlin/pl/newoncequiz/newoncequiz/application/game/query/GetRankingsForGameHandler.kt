@@ -12,9 +12,10 @@ class GetRankingsForGameHandler(
     private val userRepository: UserRepository
 ) {
     operator fun invoke(gameId: String): Ranking {
-        val gameResultOfUSer = gameResultRepository.getById(gameId)
+        val gameResultOfUSer = gameResultRepository.getByGameId(gameId)
         val top3 = gameResultRepository.findTop3ByCategoryId(gameResultOfUSer.categoryId)
         val behindUser = gameResultRepository.getTopByScoreLessThanEqualOrderByScoreDesc(gameResultOfUSer.score)
+        val thisUser = userRepository.getById(gameResultOfUSer.userId)
         return Ranking(top3.mapIndexed { index, score ->
             val user = userRepository.getById(score.userId)
             RankingUser(
@@ -24,11 +25,11 @@ class GetRankingsForGameHandler(
                 score = score.score,
                 thisUser = false
             )
-        } +
+        }.filter { it.name != thisUser.name } +
                 listOf(
                     RankingUser(
-                        name = userRepository.getById(gameResultOfUSer.userId).name,
-                        slug = userRepository.getById(gameResultOfUSer.userId).slug,
+                        name = thisUser.name,
+                        slug = thisUser.slug,
                         place = gameResultRepository.countByScoreGreaterThan(gameResultOfUSer.score) + 1,
                         score = gameResultOfUSer.score,
                         thisUser = true
@@ -42,6 +43,6 @@ class GetRankingsForGameHandler(
                         score = behindUser.score,
                         thisUser = false
                     )
-                ))
+                ).filter { it.name != thisUser.name })
     }
 }

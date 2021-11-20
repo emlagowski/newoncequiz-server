@@ -5,6 +5,8 @@ import java.math.BigInteger
 
 interface GameResultRepository : JpaRepository<GameResult, String> {
     fun getByUserIdAndCategoryId(userId: String, categoryId: String): List<GameResult>
+    fun getByGameId(gameId: String): GameResult
+    fun findByUserIdAndCategoryId(userId: String, categoryId: String): GameResult?
     fun countDistinctByCategoryId(categoryId: String): Long
     fun findTop3ByCategoryId(categoryId: String): List<GameResult>
     fun getTopByScoreLessThanEqualOrderByScoreDesc(score: BigInteger): GameResult

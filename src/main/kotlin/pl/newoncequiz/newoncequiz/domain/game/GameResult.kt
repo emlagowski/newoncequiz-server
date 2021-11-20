@@ -13,6 +13,6 @@ data class GameResult(
     val userId: String,
     var score: BigInteger = BigInteger.ZERO,
     val categoryId: String,
-    val gameId: String,
+    var gameId: String,
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

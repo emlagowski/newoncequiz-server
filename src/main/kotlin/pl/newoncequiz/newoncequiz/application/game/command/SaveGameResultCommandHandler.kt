@@ -11,8 +11,8 @@ class SaveGameResultCommandHandler(
 ) {
     @Transactional
     operator fun invoke(command: SaveGameResultCommand) {
-        val result = gameResultRepository.getById(command.gameId)
-        result.score = command.score
+        val result = gameResultRepository.getByGameId(command.gameId)
+        result.score = command.score + result.score
         gameResultRepository.save(result)
     }
 }
