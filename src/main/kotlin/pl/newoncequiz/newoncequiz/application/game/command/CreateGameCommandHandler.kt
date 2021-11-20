@@ -5,6 +5,7 @@ import pl.newoncequiz.newoncequiz.domain.game.*
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryRepository
 import pl.newoncequiz.newoncequiz.domain.quizcategory.QuizCategoryType
 import pl.newoncequiz.newoncequiz.infrastructure.clients.Newonce
+import pl.newoncequiz.newoncequiz.infrastructure.clients.NewonceClient
 import java.util.*
 import javax.transaction.Transactional
 
@@ -76,7 +77,6 @@ class CreateGameCommandHandler(
             Artist("PRO8L3M", "pro8l3m-3529948"),
             Artist("Żabson", "zabson-3803974"),
             Artist("Kaz Bałagane", "kaz-balagane-6874375"),
-            Artist("Wac Toja", "wac-toja-3989155"),
             Artist("Undadasea", "undadasea-7104233"),
             Artist("Syny", "syny-4295254"),
             Artist("JWP", "jwp-235854"),
