@@ -60,7 +60,7 @@ class CreateGameCommandHandler(
         val chosenAnswersArtists = artistsForAnswers.shuffled().subList(0, 3)
         return Question(
             number = number,
-            article = chosenArticle.title.replace(chosenArtist.name, "<<CENSORED XD>>"),
+            article = chosenArticle.title.replace(chosenArtist.name, "■■■■■■■■"),
             coverUri = chosenAlbum.image.url,
             randomSong = chosenTrack.title,
             answer = chosenArtist.name,
