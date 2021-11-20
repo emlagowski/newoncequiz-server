@@ -39,7 +39,7 @@ services:
 
   web:
     container_name: web
-    image: ghcr.io/emlagowski/newoncequiz:v0.8
+    image: ghcr.io/emlagowski/newoncequiz:v0.9
     environment:
       NODE_ENV: PROD
       VIRTUAL_HOST: newoncequiz.pl,www.newoncequiz.pl
