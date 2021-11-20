@@ -18,7 +18,7 @@ class GetRankingsForGameHandler(
         println("GetRankingsForGameHandler.invoke count=" + userRepository.count())
         val top3 = gameResultRepository.findTop3ByCategoryIdOrderByScoreDesc(gameResultOfUSer.categoryId)
         println("GetRankingsForGameHandler.invoke top3=" + top3)
-        val behindUser = gameResultRepository.getTopByScoreLessThanAndCategoryIdOrderByScoreDesc(
+        val behindUser = gameResultRepository.getTopByScoreLessThanEqualAndCategoryIdOrderByScoreDesc(
             gameResultOfUSer.score,
             gameResultOfUSer.categoryId
         )
@@ -26,7 +26,7 @@ class GetRankingsForGameHandler(
         val thisUser = userRepository.getById(gameResultOfUSer.userId) //todo tutaj dodac kategorie
         println("GetRankingsForGameHandler.invoke thisUser=" + thisUser)
         val top3Ranking = top3Ranking(top3, thisUser)
-        println("GetRankingsForGameHandler.invoke top3Ranking=" + thisUser)
+        println("GetRankingsForGameHandler.invoke top3Ranking=" + top3Ranking)
         val currentResult = currentResult(top3Ranking, thisUser, gameResultOfUSer)
         println("GetRankingsForGameHandler.invoke currentResult=" + currentResult)
         val oneBehind = oneBehindResult(behindUser, gameResultOfUSer, thisUser, top3Ranking)

@@ -5,7 +5,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-class User(
+data class User(
     @Id
     val id: String = UUID.randomUUID().toString(),
     val name: String,
