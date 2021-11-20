@@ -55,7 +55,7 @@ class GetRankingsForGameHandler(
         top3Ranking: List<RankingUser>,
         thisUser: User,
         gameResultOfUSer: GameResult
-    ) = if (!top3Ranking.any { it.slug == thisUser.slug } || thisUser.id == gameResultOfUSer.userId) {
+    ) = if (top3Ranking.any { it.slug == thisUser.slug } || thisUser.id == gameResultOfUSer.userId) {
         emptyList()
     } else {
         listOf(
