@@ -19,7 +19,8 @@ class GetQuizCategoriesHandler(
                 quizCategory = it,
                 result = gameResultRepository.getByUserIdAndCategoryId(
                     userId, it.id
-                )
+                ),
+                playedCount = gameResultRepository.countDistinctByCategoryId(it.id)
             )
         }
     }
@@ -27,5 +28,6 @@ class GetQuizCategoriesHandler(
 
 data class QuizCategoryWithResult(
     val quizCategory: QuizCategory,
-    val result: List<GameResult>
+    val result: List<GameResult>,
+    val playedCount: Long
 )
