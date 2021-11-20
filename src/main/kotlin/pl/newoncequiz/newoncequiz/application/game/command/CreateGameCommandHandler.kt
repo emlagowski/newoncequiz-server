@@ -76,7 +76,13 @@ class CreateGameCommandHandler(
             Artist("PRO8L3M", "pro8l3m-3529948"),
             Artist("Żabson", "zabson-3803974"),
             Artist("Kaz Bałagane", "kaz-balagane-6874375"),
-            Artist("Jetlagz", "jetlagz-6157286")
+            Artist("Wac Toja", "wac-toja-3989155"),
+            Artist("Undadasea", "undadasea-7104233"),
+            Artist("Syny", "syny-4295254"),
+            Artist("JWP", "jwp-235854"),
+            Artist("Bedoes", "bedoes-5103702"),
+            Artist("Malik Montana", "malik-montana-4990210"),
+            Artist("Tede", "tede-182846")
         )
         val artists = when (category.type) {
             QuizCategoryType.POLISH_RAP -> polishRap
