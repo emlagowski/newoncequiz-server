@@ -77,7 +77,7 @@ class GetRankingsForGameHandler(
         top3Ranking: List<RankingUser>
     ) = if (behindUser == null
         || behindUser.userId == gameResultOfUSer.userId
-        || !top3Ranking.any { it.id == behindUser.userId }) {
+        || top3Ranking.any { it.id == behindUser.userId }) {
         emptyList()
     } else {
         listOf(
