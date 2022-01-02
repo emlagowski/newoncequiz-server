@@ -64,7 +64,7 @@ class CreateGameCommandHandler(
             coverUri = chosenAlbum.image.url,
             randomSong = chosenTrack.title,
             answer = chosenArtist.name,
-            possibleAnswers = (chosenAnswersArtists + chosenArtist).map { it.name },
+            possibleAnswers = (chosenAnswersArtists + chosenArtist).map { it.name }.shuffled(),
             resultImageUri = chosenArtisNewonce.image.url
         )
     }
@@ -82,7 +82,10 @@ class CreateGameCommandHandler(
             Artist("JWP", "jwp-235854"),
             Artist("Bedoes", "bedoes-5103702"),
             Artist("Malik Montana", "malik-montana-4990210"),
-            Artist("Tede", "tede-182846")
+            Artist("Tede", "tede-182846"),
+            Artist("Sokół", "sokol-493128"),
+            Artist("Peja", "peja-273051"),
+            Artist("Hemp Gru", "hemp-gru-235853")
         )
         val artists = when (category.type) {
             QuizCategoryType.POLISH_RAP -> polishRap
